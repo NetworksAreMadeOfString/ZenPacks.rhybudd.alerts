@@ -1,12 +1,13 @@
 ===============================================================================
-ZenPacks.rhybydd.GCM
+ZenPacks.rhybydd.alerts
 ===============================================================================
 
 
 About
 -------------------------------------------------------------------------------
 This ZenPack adds new event notification actions that are used by the
-``zenactiond`` daemon.
+``zenactiond`` daemon to instantly deliver alerts to Rhybudd enabled Android
+devices.
 
 
 Features
@@ -14,16 +15,10 @@ Features
 
 The following event notification actions have been added:
 
-GCM Device ID
-  This action 
-
-Configurable SNMP Trap
-  This action allows for the port, community string, and SNMP protocol version
-  to be specified.
-
-User Command
-  This action allows for environment variables to be set, and also allows per-
-  user information to be extracted using TALES expressions.
+Send Alert to Rhybudd
+  This action allows Zenoss to push events to Android devices with Rhybudd installed
+  and registered with the 'Rhybudd GCM ID'. Alert delivery is usually sub-second.
+  Rhybudd is free and availale from http://bit.ly/ZenossAndroid
 
 
 Prerequisites
@@ -34,7 +29,7 @@ Prerequisite        Restriction
 ==================  =========================================================
 Product             Zenoss 4.1.1 or higher
 Required ZenPacks   None
-Other dependencies  An Android (4.0.3+) device with Rhybudd (4.0+) installed https://play.google.com/store/apps/details?id=net.networksaremadeofstring.rhybudd 
+Other dependencies  An Android (4.0.3+) device with Rhybudd (4.0+) http://bit.ly/ZenossAndroid 
 ==================  =========================================================
 
 
@@ -44,12 +39,17 @@ These notification actions are not able to provide immediate feedback as to
 whether or not configuration information is correct, so the ``zenactiond.log``
 file must be checked to ensure that the actions are working correctly.
 
+Rhybudd must be installed and the steps detailed in the usage section below
+must be followed.
+
 
 Usage
 -------------------------------------------------------------------------------
 1. Install the Rhybudd app to your phone.
 
-2. Configure the Zenoss server details, make a note of your 'Device ID'
+2. Configure the Zenoss server details (URL, username & password)
+
+3. Tap 'Create GCM ID', make a note of the 32 character key provided 
 
 3. Navigate to ``Events`` -> ``Triggers`` page.
 
@@ -58,13 +58,13 @@ Usage
 5. Click on the plus sign ('+') to add a new notification.
 
 6. From the dialog box, specify the name of the notification and select the
-   ``Rhybudd GCM Alert`` action.
+   ``Send Alert to Rhybudd`` action.
 
 7. Enable the notification and add a trigger to be associated with this action.
 
 8. Click on the ``Contents`` tab.
 
-9. Add the device ID found in step 2.
+9. Add the GCM ID found in step 3
 
 10. Click on the ``Submit`` button.
 
@@ -74,7 +74,7 @@ Installing
 
 Install the ZenPack via the command line and restart Zenoss::
 
-    zenpack --install ZenPacks.rhybudd.GCM-<version>.egg
+    zenpack --install ZenPacks.rhybudd.alerts-<version>.egg
     zenoss restart
 
 
@@ -83,7 +83,7 @@ Removing
 
 To remove the ZenPack, use the following command::
 
-    zenpack --remove ZenPacks.rhybudd.GCM
+    zenpack --remove ZenPacks.rhybudd.alerts
     zenoss restart
 
 
