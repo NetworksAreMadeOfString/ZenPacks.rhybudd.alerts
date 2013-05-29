@@ -36,7 +36,7 @@ from Products.Zuul.interfaces.actions import (
 class IConfigurableGCMActionContentInfo(IInfo):
     
     gcmdeviceid = schema.Text(
-        title       = _t(u'Rhybudd Device ID'),
-        description = _t(u'A unique string to identify your Android device.'),
+        title       = _t(u'Rhybudd GCM ID'),
+        description = _t(u'The GCM ID provided when you enabled GCM in the Rhybudd app'),
         default = _t(u'AABBCCDDEEFF00112233')
     )
