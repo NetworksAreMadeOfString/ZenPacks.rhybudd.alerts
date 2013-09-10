@@ -6,7 +6,7 @@ ZenPacks.rhybudd.alerts
 About
 -------------------------------------------------------------------------------
 This ZenPack adds new event notification actions that are used by the
-``zenactiond`` daemon to instantly deliver alerts to Rhybudd enabled Android
+``zenactiond`` daemon to instantly deliver alerts to any Rhybudd enabled Android
 devices.
 
 
@@ -16,9 +16,12 @@ Features
 The following event notification actions have been added:
 
 Send Alert to Rhybudd
-  This action allows Zenoss to push events to Android devices with Rhybudd installed
-  and registered with the 'Rhybudd GCM ID'. Alert delivery is usually sub-second.
-  Rhybudd is free and availale from http://bit.ly/ZenossAndroid
+  This action allows Zenoss to push events directly to Android devices that have
+  the Rhybudd App installed.
+  
+  Alert delivery is usually sub-second.
+  
+  Rhybudd is free, open source and available from http://bit.ly/ZenossAndroid
 
 
 Prerequisites
@@ -39,21 +42,35 @@ These notification actions are not able to provide immediate feedback as to
 whether or not configuration information is correct, so the ``zenactiond.log``
 file must be checked to ensure that the actions are working correctly.
 
-Rhybudd must be installed and the steps detailed in the usage section below
-must be followed.
+Rhybudd must be installed to your phone or tablet and the steps detailed in the 
+usage section below must be followed.
 
-
+===============
 Usage
+===============
+
+Phone / Tablet:
 -------------------------------------------------------------------------------
-### Phone:
+
+**New Install:**
+
 1. Install the Rhybudd app to your phone.
-
 2. Configure the Zenoss server details (URL, username & password)
-
 3. Tap 'Create GCM Filter', make a note of the 32 character key provided. Or create your own.
 
-### Zenoss:
-#### Basic Usage:
+**Existing Install upgraded to Rhybudd 4.0**
+
+1. Load up the app
+2. Tap the Home icon
+3. Choose ``Configure Rhybudd Push``
+4. Confirm all tests pass
+5. *[Optional]* Add an event filter *(see below for server side configuration of filters)*
+
+Zenoss:
+-------------------------------------------------------------------------------
+
+**Basic Configuration:**
+
 
 1. Navigate to ``Events`` -> ``Triggers`` page.
 
@@ -66,9 +83,10 @@ Usage
 
 5. Enable the notification and add a trigger to be associated with this action.
 
-#### Filtered Usage:
 
-1. Follow steps 1 - 4 of Basic Usage
+**Configuring Filters:**
+
+1. Follow steps 1 - 4 of Basic Configuration
 
 2. Click on the ``Contents`` tab.
 
@@ -76,18 +94,19 @@ Usage
 
 4. Click on the ``Submit`` button.
 
-#### Advanced Usage:
-To prevent your alerts traversing the ColdStart.io infrastructure and going straight to your phone (via Google GCM) do the following;
+**Advanced Configuration:**
+
+To prevent your alerts traversing the ColdStart.io infrastructure and instead have them go straight to your phone *via Google GCM)* do the following;
 
 1. Navigate to Advanced
 
-2. Select "Rhybudd Push" from the left hand menu
+2. Select ``Rhybudd Push`` from the left hand menu
 
 3. Follow the instructions from Google to create a GCM key http://developer.android.com/google/gcm/gs.html
 
-4. Add the GCM API Key and Sender ID to the page, press submit
+4. Add the ``GCM API Key`` and ``Sender ID`` to the page, press ``submit``
 
-5. On your phone load the app, tap the Home icon, choose "Configure Rhybudd Push", tap the refresh icon on the action bar. (This will update the local Sender ID and change the GCM Registration ID if neccessary)
+5. On your phone load the app, tap the Home icon, choose ``Configure Rhybudd Push``, tap the refresh icon on the action bar. *(This will update the local Sender ID and change the GCM Registration ID if neccessary)*
 
 
 Installing
@@ -111,7 +130,7 @@ To remove the ZenPack, use the following command::
 Troubleshooting
 -------------------------------------------------------------------------------
 
-The Zenoss support team will need the following output:
+To assist with any troubleshooting the aither will need the following output:
 
 1. Set the ``zenhub`` daemon into ``DEBUG`` level logging by typing
    ``zenhub debug`` from the command-line. This will ensure that we can see the
@@ -133,7 +152,7 @@ The Zenoss support team will need the following output:
    notification request.
 
 6. In the case of errors an event will be generated and sent to the event
-   console.
+   console or the zen log on the local file system.
 
 
 Appendix Related Daemons
