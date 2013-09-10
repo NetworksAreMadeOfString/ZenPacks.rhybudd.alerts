@@ -1,0 +1,17 @@
+<tal:block metal:use-macro="here/page_macros/old-new">
+<tal:block metal:fill-slot="title">Rhybudd Push</tal:block>
+
+<tal:block metal:fill-slot="contentPane">
+<script src="/++resource++rhybudd/js/configureRhybuddGCM.js"></script>
+<div style="padding: 10px, 10px, 10px, 10px;" id="rhybudd-gcm">
+
+<h1 style="padding:8px 12px 8px 12px; color: white; background: #556c86; width:100%; font-size:20px">About Rhybudd GCM Settings</h1>
+<p style="padding:8px 12px 8px 12px;">By default Rhybudd Push uses the <a href="http://coldstart.io">ColdStart.io</a> SSL Push Delivery system to proxy alerts to your phone meaning you don't have to bother setting up a Google API account, set up GCM etc. However this means that some of your alert details <em>(specifically the summary and title)</em> would be visible to the author of Rhybudd. I understand that this may not be acceptable to everyones use case.</p>
+
+<p style="padding:8px 12px 8px 12px;">To ensure that your data only travels between your Zenoss instance, Google's GCM infrastructure and your phone simply follow the instructions <a href="http://developer.android.com/google/gcm/gs.html">here</a> to get a GCM Sender ID and a GCM API Key.</p>
+<p style="padding:8px 12px 8px 12px;">Enter those two keys in the fields below and Rhybudd Push will recognise you have your own GCM ID and use your credentials instead therfore bypassing the ColdStart.io systems.</p>
+
+<p style="padding:8px 12px 8px 12px;">ColdStart is written by the same <a href="http://www.linkedin.com/pub/gareth-llewellyn/4/95/954">author</a> as Rhybudd so if you've trusted me enough to provide Zenoss credentials to an app I wrote you can rest assured that nothing untoward will come of your alerts passing through ColdStart.</p>
+</div>
+</tal:block>
+</tal:block>

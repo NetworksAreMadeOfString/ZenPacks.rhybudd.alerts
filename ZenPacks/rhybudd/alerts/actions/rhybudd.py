@@ -28,6 +28,7 @@ from Products.ZenModel.actions import _signalToContextDict, ActionExecutionExcep
 from Products.ZenModel.NotificationSubscription import NotificationEventContextWrapper
 from Products.Zuul.form.interfaces import IFormBuilder
 
+
 #In order to call curl
 #from subprocess import call
 
@@ -38,6 +39,8 @@ import httplib
 import json
 
 from ZenPacks.rhybudd.alerts.interfaces import IConfigurableGCMActionContentInfo
+from ZenPacks.rhybudd.alerts.libs.gcm_server import GCMSERVER
+from ZenPacks.rhybudd.alerts.models.gcm import Gcm
 
 class IActionBase(object):
     """
@@ -77,9 +80,9 @@ class sendGCM(IActionBase):
             raise ActionExecutionException("Cannot send a Rhybudd GCM message with the default GCM Key")
         
 	if signal.clear and data['clearEventSummary'].uuid:
-	    log.info('------------------------------------ Signal clear')
+	    log.info('------------------------------------ This is a clear message')
         else:
-            log.info('------------------------------------ Signal something else')
+            log.info('------------------------------------ This is an alert')
 
         #log.info(data['eventSummary'].summary)
         #log.info(data['eventSummary'].status)
@@ -93,9 +96,13 @@ class sendGCM(IActionBase):
         if actor.element_uuid:
             device = self.guidManager.getObject(actor.element_uuid)
 
+	#------------------------------------
+	#The CURL Way of doing things
         #curlCall = "curl -H \"Content-Type: application/json\" -X POST -d '{\"gcm_id\": \"%s\",\"evid\": \"%s\",\"device\": \"%s\",\"summary\": \"%s\",\"status\": \"%s\",\"count\": \"%s\",\"severity\": \"%s\",\"event_class\": \"%s\",\"event_class_key\": \"%s\"}' http://api.coldstart.io/1/zenoss.php" % (notification.content['gcmdeviceid'], signal.event.uuid,device,data['eventSummary'].summary,data['eventSummary'].status,data['eventSummary'].count,data['eventSummary'].severity,data['eventSummary'].event_class,data['eventSummary'].event_class_key)
         #call(curlCall, shell=True)
 
+	#------------------------------------
+	#The URL Lib way of doing things
         payload = {
         'gcm_id': notification.content['gcmdeviceid'],
 "evid": "%s" % signal.event.uuid,
@@ -107,11 +114,33 @@ class sendGCM(IActionBase):
 "event_class": "%s" % data['eventSummary'].event_class,
 "event_class_key": "%s" % data['eventSummary'].event_class_key,
 }
-        data = "json=%s" % json.dumps(payload)
-        h = httplib.HTTPSConnection('api.coldstart.io')
-        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
-        h.request('POST', '/1/zenoss', data, headers)
+
+	gcm_details = getattr(self.dmd, 'rhybudd_gcm', Gcm(None, None))
+	log.info("%s",gcm_details.gcm_api_key)
+	stored_regids = getattr(self.dmd, 'rhybudd_regids', [])
+	reg_ids = []
+
+	for regDetails in stored_regids:
+          log.info('Found a GCM ID: %s',regDetails.gcm_reg_id)
+	  reg_ids.append(regDetails.gcm_reg_id)
+
+	if gcm_details.gcm_api_key == "":
+		#------------------------------------
+		#No GCM Key specified so we'll proxy through ColdStart.io so as to not expose our GCM API Key
+		log.info('------------------------------------ Sending a coldstart GCM Request')
+        	data = "json=%s" % json.dumps(payload)
+        	h = httplib.HTTPSConnection('api.coldstart.io')
+        	headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        	h.request('POST', '/1/zenoss', data, headers)
     
+	else:
+		#------------------------------------
+		# Direct to GCM
+		log.info('------------------------------------ Sending a direct GCM Request')
+		gcm = GCMSERVER(gcm_details.gcm_api_key)
+		response = gcm.json_request(registration_ids=reg_ids, data=payload)
+		log.info("%s",json.dumps(response))
+		log.info('------------------------------------ Sent a direct GCM Request')	
+
     def updateContent(self, content=None, data=None):
-        content['gcmdeviceid'] = data.get('gcmdeviceid')
- 
+        content['gcmdeviceid'] = data.get('gcmdeviceid') 

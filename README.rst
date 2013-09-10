@@ -45,28 +45,49 @@ must be followed.
 
 Usage
 -------------------------------------------------------------------------------
+### Phone:
 1. Install the Rhybudd app to your phone.
 
 2. Configure the Zenoss server details (URL, username & password)
 
-3. Tap 'Create GCM ID', make a note of the 32 character key provided 
+3. Tap 'Create GCM Filter', make a note of the 32 character key provided. Or create your own.
 
-3. Navigate to ``Events`` -> ``Triggers`` page.
+### Zenoss:
+#### Basic Usage:
 
-4. Click on the ``Notifications`` menu item.
+1. Navigate to ``Events`` -> ``Triggers`` page.
 
-5. Click on the plus sign ('+') to add a new notification.
+2. Click on the ``Notifications`` menu item.
 
-6. From the dialog box, specify the name of the notification and select the
+3. Click on the plus sign ('+') to add a new notification.
+
+4. From the dialog box, specify the name of the notification and select the
    ``Send Alert to Rhybudd`` action.
 
-7. Enable the notification and add a trigger to be associated with this action.
+5. Enable the notification and add a trigger to be associated with this action.
 
-8. Click on the ``Contents`` tab.
+#### Filtered Usage:
 
-9. Add the GCM ID found in step 3
+1. Follow steps 1 - 4 of Basic Usage
 
-10. Click on the ``Submit`` button.
+2. Click on the ``Contents`` tab.
+
+3. Add the "GCM Filter" found in step 3
+
+4. Click on the ``Submit`` button.
+
+#### Advanced Usage:
+To prevent your alerts traversing the ColdStart.io infrastructure and going straight to your phone (via Google GCM) do the following;
+
+1. Navigate to Advanced
+
+2. Select "Rhybudd Push" from the left hand menu
+
+3. Follow the instructions from Google to create a GCM key http://developer.android.com/google/gcm/gs.html
+
+4. Add the GCM API Key and Sender ID to the page, press submit
+
+5. On your phone load the app, tap the Home icon, choose "Configure Rhybudd Push", tap the refresh icon on the action bar. (This will update the local Sender ID and change the GCM Registration ID if neccessary)
 
 
 Installing

@@ -42,7 +42,7 @@ from Products.Zuul.interfaces.actions import (
 class IConfigurableGCMActionContentInfo(IInfo):
     
     gcmdeviceid = schema.Text(
-        title       = _t(u'Rhybudd GCM ID'),
-        description = _t(u'The GCM ID provided when you enabled GCM in the Rhybudd app'),
+        title       = _t(u'Rhybudd Push Key'),
+        description = _t(u'The Push Key generated when you enabled Rhybudd Push in the app'),
         default = _t(u'AABBCCDDEEFF00112233')
     )

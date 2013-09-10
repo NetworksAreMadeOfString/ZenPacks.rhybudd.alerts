@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:zcml="http://namespaces.zope.org/zcml">
-    
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"> 
+
     <utility
         factory=".actions.rhybudd.sendGCM"
         provides="Products.ZenModel.interfaces.IAction"
@@ -13,5 +14,14 @@
              for="Products.ZenModel.NotificationSubscription.NotificationSubscription"
              factory=".info.ConfigurableGCMActionContentInfo"
              />
+    <include package=".browser"/>
 
+    <include package="Products.ZenUtils.extdirect.zope" file="meta.zcml"/>
+
+    <browser:directRouter
+     name="rhybudd_gcm_router"
+     for="*"
+     class=".routers.RhybuddGCMRouter"
+     namespace="Zenoss.remote"
+     permission="zenoss.View"/>
 </configure>
