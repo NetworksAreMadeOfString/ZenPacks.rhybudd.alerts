@@ -20,7 +20,7 @@
 ###########################################################################
 
 ###########################################################################
-# Other Software included under the same license:
+# Other Software included:
 #
 # models/serialization.py 
 #   Copyright (c) 2013, PagerDuty, Inc. <info@pagerduty.com>

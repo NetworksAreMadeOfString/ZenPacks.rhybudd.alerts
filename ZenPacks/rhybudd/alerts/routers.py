@@ -91,15 +91,3 @@ class RhybuddGCMRouter(DirectRouter):
         setattr(dmdRoot, 'rhybudd_gcm', gcm_details)
 
         return DirectResponse.succeed()
-        #if not account.api_access_key or not account.subdomain:
-        #    return DirectResponse.succeed()
-#
-#        services_router = ServicesRouter(self.context, self.request)
-#        result = services_router.get_services(wants_messages)
-#
-#        if result.data['success']:
-#            result.data['msg'] = "PagerDuty services retrieved successfully."
-#            api_services = result.data['data']
-#            log.info("Successfully fetched %d PagerDuty generic API services.", len(api_services))
-#
-#        return result
