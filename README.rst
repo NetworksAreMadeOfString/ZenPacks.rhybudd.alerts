@@ -30,7 +30,7 @@ Prerequisites
 ==================  =========================================================
 Prerequisite        Restriction
 ==================  =========================================================
-Product             Zenoss 4.1.1 or higher
+Product             Zenoss 4.1.1 or higher / ZaaS *(any version)*
 Required ZenPacks   None
 Other dependencies  An Android (4.0.3+) device with Rhybudd (4.0+) http://bit.ly/ZenossAndroid 
 ==================  =========================================================
