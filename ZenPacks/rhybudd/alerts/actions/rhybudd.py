@@ -138,6 +138,7 @@ class sendGCM(IActionBase):
 		# Direct to GCM
 		log.info('------------------------------------ Sending a direct GCM Request')
 		gcm = GCMSERVER(gcm_details.gcm_api_key)
+		#reg_ids = ['APA91bEPJ_Pf7k5KgpZxbNBpq9snGjYyQn6Q21w_JYl-_4FADgNH54kzcQxGb6Wjb1PkWGiEaVQE0MXhMw7q-jTOvDN_smiaSa96F9sEOLd1xYt4yd7PiYVCYsVULiFoN_isvz1AcN-HXjZVfipBLBIzN5ohqN_MM2tpmBj9JFpdwjFgM6ZNhPU']
 		response = gcm.json_request(registration_ids=reg_ids, data=payload)
 		log.info("%s",json.dumps(response))
 		log.info('------------------------------------ Sent a direct GCM Request')	

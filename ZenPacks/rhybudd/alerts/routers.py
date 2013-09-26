@@ -55,6 +55,25 @@ class RhybuddGCMRouter(DirectRouter):
         regids = getattr(dmdRoot, 'rhybudd_regids', [])
         return _success(regids)
 
+    def ping(self):
+        """
+        Used by the android app to confirm we are installed
+        """
+        #I really should get this working
+        #resources = pkg_resources.require(__name__)
+        #ver = 0
+        #if not resources:
+        #    ver = 0
+        #else:
+        #    ver = resources[0].version
+
+	dmdRoot = _dmdRoot(self.context)
+        regids = getattr(dmdRoot, 'rhybudd_regids', [])
+        pong = {"pong":True, "version": 1, "reg":regids }
+
+        return _success(pong)
+
+
     def update_gcm_regid(self, gcm_reg_id=None, device_id=None):
         """
         Adds or updates the GCM registration id for the specificed device
@@ -81,6 +100,30 @@ class RhybuddGCMRouter(DirectRouter):
         setattr(dmdRoot, 'rhybudd_regids', regids)
         return DirectResponse.succeed()
 
+    def remove_gcm_regid(self, device_id=None):
+        """
+        Removes the GCM registration id for the specificed device
+        """
+
+        dmdRoot = _dmdRoot(self.context)
+        regids = getattr(dmdRoot, 'rhybudd_regids', [])
+        #regids = []
+        i = 0
+        found = False
+	this_reg_details = models.regid.RegID("None","None")
+        for regDetails in regids:
+         if regDetails.device_id == device_id:
+          found = True
+          this_reg_details = regDetails	  
+          break
+         else:
+          i += 1
+
+        if found == True:
+         regids.remove(this_reg_details)
+         
+        setattr(dmdRoot, 'rhybudd_regids', regids)
+        return DirectResponse.succeed()
 
     def update_gcm_settings(self, gcm_api_key=None, gcm_sender_id=None):
         """
