@@ -69,7 +69,8 @@ class RhybuddGCMRouter(DirectRouter):
 
 	dmdRoot = _dmdRoot(self.context)
         regids = getattr(dmdRoot, 'rhybudd_regids', [])
-        pong = {"pong":True, "version": 1, "reg":regids }
+	gcm_details = getattr(dmdRoot, 'rhybudd_gcm', models.gcm.Gcm(None, None))
+        pong = {"pong":True, "version": 1, "reg":regids, "senderid": gcm_details.gcm_sender_id}
 
         return _success(pong)
 

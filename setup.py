@@ -9,7 +9,7 @@ LICENSE = "GPLv3"
 NAMESPACE_PACKAGES = ['ZenPacks', 'ZenPacks.rhybudd']
 PACKAGES = ['ZenPacks', 'ZenPacks.rhybudd', 'ZenPacks.rhybudd.alerts']
 INSTALL_REQUIRES = []
-COMPAT_ZENOSS_VERS = ""
+COMPAT_ZENOSS_VERS = ">= 4.0"
 PREV_ZENPACK_NAME = ""
 # STOP_REPLACEMENTS
 ################################

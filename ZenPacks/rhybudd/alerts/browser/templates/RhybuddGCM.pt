@@ -11,6 +11,9 @@
 <p style="padding:8px 12px 8px 12px;">To ensure that your data only travels between your Zenoss instance, Google's GCM infrastructure and your phone simply follow the instructions <a href="http://developer.android.com/google/gcm/gs.html">here</a> to get a GCM Sender ID and a GCM API Key.</p>
 <p style="padding:8px 12px 8px 12px;">Enter those two keys in the fields below and Rhybudd Push will recognise you have your own GCM ID and use your credentials instead therfore bypassing the ColdStart.io systems.</p>
 
+<p style="padding:8px 12px 8px 12px;"><strong>IMPORTANT:</strong>If you change the values below your devices will need to re-register with the ZenPack to get the new SenderID. Simply load up Rhybudd, open the Drawer Menu, tap Configure Rhybudd Push and then tap 'Register with ZenPack'</p>
+
+
 <p style="padding:8px 12px 8px 12px;">ColdStart is written by the same <a href="http://www.linkedin.com/pub/gareth-llewellyn/4/95/954">author</a> as Rhybudd so if you've trusted me enough to provide Zenoss credentials to an app I wrote you can rest assured that nothing untoward will come of your alerts passing through ColdStart.</p>
 </div>
 </tal:block>

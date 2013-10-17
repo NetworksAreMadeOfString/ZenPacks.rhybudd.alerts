@@ -76,13 +76,13 @@ class sendGCM(IActionBase):
         
         data = _signalToContextDict(signal, self.options.get('zopeurl'), notification, self.guidManager)
 
-        if notification.content['gcmdeviceid'] == "AABBCCDDEEFF00112233":
-            raise ActionExecutionException("Cannot send a Rhybudd GCM message with the default GCM Key")
+        #if notification.content['gcmdeviceid'] == "AABBCCDDEEFF00112233":
+        #    raise ActionExecutionException("Cannot send a Rhybudd GCM message with the default GCM Key")
         
-	if signal.clear and data['clearEventSummary'].uuid:
-	    log.info('------------------------------------ This is a clear message')
-        else:
-            log.info('------------------------------------ This is an alert')
+	#if signal.clear and data['clearEventSummary'].uuid:
+	#    log.info('------------------------------------ This is a clear message')
+        #else:
+        #    log.info('------------------------------------ This is an alert')
 
         #log.info(data['eventSummary'].summary)
         #log.info(data['eventSummary'].status)
@@ -103,8 +103,16 @@ class sendGCM(IActionBase):
 
 	#------------------------------------
 	#The URL Lib way of doing things
+
+	prodstate = ""
+	try:
+		prodstate = "%s" % data.prodstate  		
+	except Exception:
+		prodstate = "" 
+  		pass
+
         payload = {
-        'gcm_id': notification.content['gcmdeviceid'],
+        'filter_key': notification.content['gcmdeviceid'],
 "evid": "%s" % signal.event.uuid,
 "device": "%s" % device,
 "summary": "%s" % data['eventSummary'].summary,
@@ -113,6 +121,11 @@ class sendGCM(IActionBase):
 "severity": data['eventSummary'].severity,
 "event_class": "%s" % data['eventSummary'].event_class,
 "event_class_key": "%s" % data['eventSummary'].event_class_key,
+
+"prodstate": "%s" % prodstate,
+"firsttime": "%s" % data['eventSummary'].first_seen_time,
+#"componenttext": "%s" % data['eventSummary'].component.text,
+"ownerid": "%s" % data['eventSummary'].current_user_name
 }
 
 	gcm_details = getattr(self.dmd, 'rhybudd_gcm', Gcm(None, None))
@@ -121,14 +134,17 @@ class sendGCM(IActionBase):
 	reg_ids = []
 
 	for regDetails in stored_regids:
-          log.info('Found a GCM ID: %s',regDetails.gcm_reg_id)
+          #log.info('Found a GCM ID: %s',regDetails.gcm_reg_id)
 	  reg_ids.append(regDetails.gcm_reg_id)
 
 	if gcm_details.gcm_api_key == "":
 		#------------------------------------
 		#No GCM Key specified so we'll proxy through ColdStart.io so as to not expose our GCM API Key
 		log.info('------------------------------------ Sending a coldstart GCM Request')
-        	data = "json=%s" % json.dumps(payload)
+        	
+		coldstart_payload = {'payload': payload, 'regids': reg_ids} 
+		data = "json=%s" % json.dumps(coldstart_payload)
+		
         	h = httplib.HTTPSConnection('api.coldstart.io')
         	headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
         	h.request('POST', '/1/zenoss', data, headers)
