@@ -56,12 +56,14 @@ Phone / Tablet:
 
 1. Install the Rhybudd app to your phone.
 2. Configure the Zenoss server details (URL, username & password)
-3. Tap 'Create GCM Filter', make a note of the 32 character key provided. Or create your own.
+3. Tap the ``Configure Rhybudd Push`` Tab
+4. Confirm all tests pass
+5. *[Optional]* Add an event filter *(see below for server side configuration of filters)*
 
 **Existing Install upgraded to Rhybudd 4.0**
 
 1. Load up the app
-2. Tap the Home icon
+2. Tap the Home / Drawer menu icon
 3. Choose ``Configure Rhybudd Push``
 4. Confirm all tests pass
 5. *[Optional]* Add an event filter *(see below for server side configuration of filters)*
@@ -72,7 +74,7 @@ Zenoss:
 **Basic Configuration:**
 
 
-1. Navigate to ``Events`` -> ``Triggers`` page.
+1. Navigate to ``Events -> Triggers`` page.
 
 2. Click on the ``Notifications`` menu item.
 
@@ -90,15 +92,23 @@ Zenoss:
 
 2. Click on the ``Contents`` tab.
 
-3. Add the "GCM Filter" found in step 3
+3. Input a "Filter Key"
 
 4. Click on the ``Submit`` button.
 
+5. On your Android device tap the Home / Drawer menu icon
+
+6. Choose ``Configure Rhybudd Push``
+
+7. Confirm all tests pass
+
+8. Add the Filter key from Step 3 into the edit box. Tap Back or the Home button on the ActionBar
+
 **Advanced Configuration:**
 
-To prevent your alerts traversing the ColdStart.io infrastructure and instead have them go straight to your phone *via Google GCM)* do the following;
+To prevent your alerts traversing the ColdStart.io infrastructure and instead have them go straight to your phone (*via Google GCM)* do the following;
 
-1. Navigate to Advanced
+1. Login to Zenoss and navigate to ``Advanced``
 
 2. Select ``Rhybudd Push`` from the left hand menu
 
