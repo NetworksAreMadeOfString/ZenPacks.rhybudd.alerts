@@ -67,9 +67,18 @@ class sendGCM(IActionBase):
     name = 'Send Alert to Rhybudd'
     actionContentInfo = IConfigurableGCMActionContentInfo
 
+
     def setupAction(self, dmd):
         self.guidManager = GUIDManager(dmd)
         self.dmd = dmd
+
+#    def executeBatch(self, notification, signal, targets):
+#	log.debug("Executing %s action for targets: %s", self.name, targets)
+#
+#	self.setupAction(notification.dmd)
+#
+#        data = _signalToContextDict(signal, self.options.get('zopeurl'), notification, self.guidManager)
+
 
     def execute(self, notification, signal):
         self.setupAction(notification.dmd)
@@ -155,7 +164,7 @@ class sendGCM(IActionBase):
 		log.info('------------------------------------ Sending a direct GCM Request')
 		gcm = GCMSERVER(gcm_details.gcm_api_key)
 		#reg_ids = ['APA91bEPJ_Pf7k5KgpZxbNBpq9snGjYyQn6Q21w_JYl-_4FADgNH54kzcQxGb6Wjb1PkWGiEaVQE0MXhMw7q-jTOvDN_smiaSa96F9sEOLd1xYt4yd7PiYVCYsVULiFoN_isvz1AcN-HXjZVfipBLBIzN5ohqN_MM2tpmBj9JFpdwjFgM6ZNhPU']
-		response = gcm.json_request(registration_ids=reg_ids, data=payload)
+		response = gcm.json_request(registration_ids=reg_ids, data=payload, collapse_key=signal.event.uuid, time_to_live=0)
 		log.info("%s",json.dumps(response))
 		log.info('------------------------------------ Sent a direct GCM Request')	
 
