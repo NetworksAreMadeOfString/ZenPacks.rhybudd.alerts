@@ -137,7 +137,7 @@ class sendGCM(IActionBase):
 "ownerid": "%s" % data['eventSummary'].current_user_name
 }
 
-	gcm_details = getattr(self.dmd, 'rhybudd_gcm', Gcm(None, None))
+	gcm_details = getattr(self.dmd, 'rhybudd_gcm', Gcm("", ""))
 	log.info("%s",gcm_details.gcm_api_key)
 	stored_regids = getattr(self.dmd, 'rhybudd_regids', [])
 	reg_ids = []

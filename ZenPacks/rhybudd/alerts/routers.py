@@ -44,7 +44,7 @@ class RhybuddGCMRouter(DirectRouter):
         Retrieves the gcm pair from /zport/dmd/rhybudd_gcm.
         """
         dmdRoot = _dmdRoot(self.context)
-        gcm_details = getattr(dmdRoot, 'rhybudd_gcm', models.gcm.Gcm(None, None))
+        gcm_details = getattr(dmdRoot, 'rhybudd_gcm', models.gcm.Gcm("", ""))
         return _success(gcm_details)
 
     def get_gcm_regids(self):
